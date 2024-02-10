@@ -1,0 +1,5 @@
+{
+    "typescriptHero.imports.stringQuoteStyle": "\"",
+    "editor.tabSize": 2,
+    "editor.indentSize": "tabSize"
+}

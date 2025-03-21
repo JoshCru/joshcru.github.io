@@ -1,91 +1,70 @@
-import Discord from './components/pages/Discord';
-import RebalanceCalculator from './components/pages/RebalanceCalculator';
-import ToDoList from './components/pages/ToDoList/ToDoList';
-import './App.css';
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  Link,
-  useParams,
-  useNavigate
-} from 'react-router-dom';
-
 import React from 'react';
+import { BrowserRouter, Routes, Route, Link, useParams, useNavigate } from 'react-router-dom';
+import './App.css';
 
-const Home = () => {
-  return <div>Home</div>;
-};
+const Home = () => (
+  <div className="home">
+    <h1>Welcome to My Portfolio</h1>
+    <p>Software Engineer | Mechatronics | AI in Education</p>
+  </div>
+);
 
-const About = () => {
-  return <div>About</div>;
-};
+const Projects = () => (
+  <div className="projects">
+    <h2>My Projects</h2>
+    <ul>
+      <li><Link to="/discord">Discord Clone</Link></li>
+      <li><Link to="/rebalance">Rebalance Calculator</Link></li>
+      <li><Link to="/todolist">To-Do List</Link></li>
+    </ul>
+  </div>
+);
 
-const AboutTeam = () => {
-  return <div>About Team</div>;
-};
-
-const AboutHistory = () => {
-  return <div>About History</div>;
-};
+const Contact = () => (
+  <div className="contact">
+    <h2>Contact Me</h2>
+    <p>Email: your.email@example.com</p>
+    <p>LinkedIn: <a href="https://linkedin.com">Your Profile</a></p>
+  </div>
+);
 
 const Profile = () => {
-  const params = useParams();
+  const { name } = useParams();
   const navigate = useNavigate();
+  const [input, setInput] = React.useState(name || '');
 
-  const [name, setName] = React.useState('');
-  console.log(params);
-  if (!params.name) {
-    return (
-      <>
-        Name: <input value={name} onChange={e => setName(e.target.value)}/>
-        <button onClick={() => {
-          navigate('/profile/' + name)
-        }}>Go!</button>
-
-      </>
-    )
-  }
   return (
-    <div>
-      Profile {params.name}
+    <div className="profile">
+      <h2>Profile {name ? name : "Not Set"}</h2>
+      <input value={input} onChange={e => setInput(e.target.value)} placeholder="Enter Name" />
+      <button onClick={() => navigate(`/profile/${input}`)}>Go!</button>
     </div>
   );
 };
 
-const Nav = () => {
-  return (
-    <>
-      <span><Link to="/">Home</Link></span>&nbsp;|&nbsp;
-      <span><Link to="/discord">Replicate Discord</Link></span>&nbsp;|&nbsp;
-      <span><Link to="/rebalance">Rebalance Calculator</Link></span> &nbsp;|&nbsp;
-      <span><Link to="/todolist">To Do List</Link></span>&nbsp;|&nbsp;
-      <span><Link to="/about/history">History</Link></span>&nbsp;|&nbsp;
-      <span><Link to="/profile">Profile</Link></span>
-    </>
-  );
-};
+const Nav = () => (
+  <nav className="navbar">
+    <ul>
+      <li><Link to="/">Home</Link></li>
+      <li><Link to="/projects">Projects</Link></li>
+      <li><Link to="/contact">Contact</Link></li>
+      <li><Link to="/profile">Profile</Link></li>
+    </ul>
+  </nav>
+);
 
 function App() {
   return (
-    <>
-      <BrowserRouter>
-        <Nav/>
-        <hr/>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />}>
-            <Route path="team" element={<AboutTeam />}/>
-            <Route path="history" element={<AboutHistory />}/>
-          </Route>
-          <Route path="/discord" element={<Discord />} />
-          <Route path="/rebalance" element={<RebalanceCalculator/>} />
-          <Route path="/todolist" element={<ToDoList />} />
-          <Route path="/profile/:name" element={<Profile />} />
-        </Routes>
-      </BrowserRouter>
-    </>
-  )
+    <BrowserRouter>
+      <Nav />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/projects" element={<Projects />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/profile/:name" element={<Profile />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
 export default App;

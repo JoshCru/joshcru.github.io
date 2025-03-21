@@ -1,95 +1,79 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { BrowserRouter, Routes, Route, Link, useParams, useNavigate } from 'react-router-dom';
 import './App.css';
 
+
 const Home = () => {
-  const [resumeUrl, setResumeUrl] = useState('');
-  const [photoUrl, setPhotoUrl] = useState('');
-  const [degree, setDegree] = useState('');
-  const [about, setAbout] = useState('');
-  const [isEditing, setIsEditing] = useState(false);
-
-  const saveProfile = () => {
-    setIsEditing(false);
-    // In a real app, you'd save this data to localStorage or a backend
-  };
-
   return (
-    <div className="home">
+    <div className="profile-section">
       <div className="profile-header">
-        {photoUrl ? (
-          <img 
-            src={photoUrl} 
-            alt="Profile" 
-            className="profile-photo" 
-          />
-        ) : (
-          <div className="profile-photo-placeholder">
-            {isEditing ? (
-              <input 
-                type="text" 
-                value={photoUrl} 
-                onChange={(e) => setPhotoUrl(e.target.value)} 
-                placeholder="Enter photo URL" 
-              />
-            ) : (
-              <span>No Photo Added</span>
-            )}
-          </div>
-        )}
+        <img 
+          src="/api/placeholder/200/200" 
+          alt="Profile" 
+          className="profile-photo" 
+        />
         
         <div className="profile-intro">
-          <h1>Welcome to My Portfolio</h1>
+          <h1>Joshua Cruzado</h1>
           <p className="tagline">Software Engineer | Mechatronics | AI in Education</p>
-          
-          {degree && <p className="degree">{degree}</p>}
-          
-          {isEditing ? (
-            <input 
-              type="text" 
-              value={degree} 
-              onChange={(e) => setDegree(e.target.value)} 
-              placeholder="Your degree (e.g., B.S. Computer Science)" 
-              className="degree-input"
-            />
-          ) : null}
-          
-          {resumeUrl ? (
-            <a href={resumeUrl} className="resume-link" target="_blank" rel="noopener noreferrer">
-              View Resume
-            </a>
-          ) : isEditing ? (
-            <input 
-              type="text" 
-              value={resumeUrl} 
-              onChange={(e) => setResumeUrl(e.target.value)} 
-              placeholder="Link to your resume" 
-              className="resume-input"
-            />
-          ) : null}
+          <p className="degree">Computer Science and Mechatronics Engineering, University of New South Wales</p>
+          <a href="#" className="resume-link" target="_blank" rel="noopener noreferrer">
+            View Resume
+          </a>
         </div>
       </div>
       
       <div className="about-section">
         <h2>About Me</h2>
-        {isEditing ? (
-          <textarea 
-            value={about} 
-            onChange={(e) => setAbout(e.target.value)} 
-            placeholder="Tell visitors about yourself, your skills, and your experience..." 
-            rows={6}
-            className="about-textarea"
-          />
-        ) : (
-          <p>{about || "Add some information about yourself to help visitors get to know you better."}</p>
-        )}
+        <p>
+          I'm a passionate software engineer with 5 years of experience building web applications
+          and AI-powered solutions. My background in mechatronics gives me a unique perspective
+          on creating software that interacts with physical systems. I'm particularly interested
+          in applying AI to educational technology to create more personalized learning experiences.
+        </p>
       </div>
       
-      {isEditing ? (
-        <button onClick={saveProfile} className="save-button">Save Profile</button>
-      ) : (
-        <button onClick={() => setIsEditing(true)} className="edit-button">Edit Profile</button>
-      )}
+      <div className="skills-section">
+        <h2>Skills & Expertise</h2>
+        <div className="skills-grid">
+          <div className="skill-category">
+            <h3>Programming</h3>
+            <ul>
+              <li>JavaScript/TypeScript</li>
+              <li>Python</li>
+              <li>C++</li>
+              <li>Java</li>
+            </ul>
+          </div>
+          <div className="skill-category">
+            <h3>Web Development</h3>
+            <ul>
+              <li>React</li>
+              <li>Node.js</li>
+              <li>Express</li>
+              <li>GraphQL</li>
+            </ul>
+          </div>
+          <div className="skill-category">
+            <h3>AI & Machine Learning</h3>
+            <ul>
+              <li>TensorFlow</li>
+              <li>PyTorch</li>
+              <li>Computer Vision</li>
+              <li>NLP</li>
+            </ul>
+          </div>
+          <div className="skill-category">
+            <h3>Tools & Technologies</h3>
+            <ul>
+              <li>Git</li>
+              <li>Docker</li>
+              <li>AWS</li>
+              <li>CI/CD</li>
+            </ul>
+          </div>
+        </div>
+      </div>
       
       <div className="featured-projects">
         <h2>Featured Projects</h2>
@@ -144,6 +128,33 @@ const Projects = () => (
           <span>Material UI</span>
         </div>
       </div>
+      <div className="project-item">
+        <h3><Link to="/ai-tutor">AI Tutor</Link></h3>
+        <p>An AI-powered tutoring system that adapts to individual learning styles and needs.</p>
+        <div className="tech-stack">
+          <span>Python</span>
+          <span>TensorFlow</span>
+          <span>React</span>
+        </div>
+      </div>
+      <div className="project-item">
+        <h3><Link to="/smart-garden">Smart Garden</Link></h3>
+        <p>IoT system for automated plant care with moisture, light, and temperature monitoring.</p>
+        <div className="tech-stack">
+          <span>Arduino</span>
+          <span>React Native</span>
+          <span>Node.js</span>
+        </div>
+      </div>
+      <div className="project-item">
+        <h3><Link to="/ecommerce">E-commerce Platform</Link></h3>
+        <p>Full-featured online store with product management, cart, and payment processing.</p>
+        <div className="tech-stack">
+          <span>Next.js</span>
+          <span>MongoDB</span>
+          <span>Stripe</span>
+        </div>
+      </div>
     </div>
   </div>
 );
@@ -168,49 +179,22 @@ const Contact = () => (
     </form>
     
     <div className="contact-info">
-      <p>Email: your.email@example.com</p>
-      <p>LinkedIn: <a href="https://linkedin.com/in/yourprofile" target="_blank" rel="noopener noreferrer">Your Profile</a></p>
-      <p>GitHub: <a href="https://github.com/yourusername" target="_blank" rel="noopener noreferrer">yourusername</a></p>
+      <p>Email: john.doe@example.com</p>
+      <p>LinkedIn: <a href="https://linkedin.com/in/johndoe" target="_blank" rel="noopener noreferrer">linkedin.com/in/johndoe</a></p>
+      <p>GitHub: <a href="https://github.com/johndoe" target="_blank" rel="noopener noreferrer">github.com/johndoe</a></p>
     </div>
   </div>
 );
 
-const Profile = () => {
-  const { name } = useParams();
-  const navigate = useNavigate();
-  const [input, setInput] = useState(name || '');
-
-  return (
-    <div className="profile-page">
-      <h2>Profile {name ? `- ${name}` : "Not Set"}</h2>
-      <div className="profile-form">
-        <input 
-          value={input} 
-          onChange={e => setInput(e.target.value)} 
-          placeholder="Enter Name" 
-          className="profile-input"
-        />
-        <button 
-          onClick={() => navigate(`/profile/${input}`)} 
-          className="profile-button"
-        >
-          Update Profile
-        </button>
-      </div>
-    </div>
-  );
-};
-
 const Nav = () => (
   <nav className="navbar">
     <div className="logo">
-      <Link to="/">YourName</Link>
+      <Link to="/">John Doe</Link>
     </div>
     <ul className="nav-links">
       <li><Link to="/">Home</Link></li>
       <li><Link to="/projects">Projects</Link></li>
       <li><Link to="/contact">Contact</Link></li>
-      <li><Link to="/profile">Profile</Link></li>
     </ul>
   </nav>
 );
@@ -225,12 +209,10 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/projects" element={<Projects />} />
             <Route path="/contact" element={<Contact />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/profile/:name" element={<Profile />} />
           </Routes>
         </main>
         <footer className="footer">
-          <p>&copy; {new Date().getFullYear()} Your Name. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} John Doe. All rights reserved.</p>
         </footer>
       </div>
     </BrowserRouter>

@@ -217,8 +217,8 @@ const Contact = () => (
     
     <div className="contact-info">
       <p>Email: joshua.cruzado@example.com</p>
-      <p>LinkedIn: <a href="https://linkedin.com/in/joshcru" target="_blank" rel="noopener noreferrer">linkedin.com/in/joshuacruzado</a></p>
-      <p>GitHub: <a href="https://github.com/joshua-cruzado" target="_blank" rel="noopener noreferrer">github.com/joshuacruzado</a></p>
+      <p>LinkedIn: <a href="https://linkedin.com/in/joshua-cruzado" target="_blank" rel="noopener noreferrer">linkedin.com/in/joshua-cruzado</a></p>
+      <p>GitHub: <a href="https://github.com/joshcru" target="_blank" rel="noopener noreferrer">github.com/joshcru</a></p>
     </div>
   </div>
 );

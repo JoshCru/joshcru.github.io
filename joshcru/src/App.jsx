@@ -216,7 +216,7 @@ const Contact = () => (
     </form>
     
     <div className="contact-info">
-      <p>Email: joshua.cruzado@example.com</p>
+      <p>Email: joshcruzado2003@gmail.com</p>
       <p>LinkedIn: <a href="https://linkedin.com/in/joshua-cruzado" target="_blank" rel="noopener noreferrer">linkedin.com/in/joshua-cruzado</a></p>
       <p>GitHub: <a href="https://github.com/joshcru" target="_blank" rel="noopener noreferrer">github.com/joshcru</a></p>
     </div>

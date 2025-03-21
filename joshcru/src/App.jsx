@@ -1,4 +1,6 @@
 import React from 'react';
+import resumePdf from './JoshuaCruzado.pdf';
+import profilePic from './pfp.jpeg';
 import { BrowserRouter, Routes, Route, Link, useParams, useNavigate } from 'react-router-dom';
 import './App.css';
 
@@ -6,17 +8,13 @@ const Home = () => {
   return (
     <div className="profile-section">
       <div className="profile-header">
-        <img 
-          src="/src/pfp.jpeg" 
-          alt="Profile" 
-          className="profile-photo" 
-        />
+      <img src={profilePic} alt="Profile" className="profile-photo" />
         
         <div className="profile-intro">
           <h1>Joshua Cruzado</h1>
           <p className="tagline">Software Engineer | Mechatronics Engineer | AI Enthusiast</p>
           <p className="degree">Bachelor of Engineering (Honours) / Computer Science, University of New South Wales</p>
-          <a href="/src/JoshuaCruzado.pdf" className="resume-link" target="_blank" rel="noopener noreferrer">
+          <a href={resumePdf} className="resume-link" target="_blank" rel="noopener noreferrer">
             View Resume
           </a>
         </div>

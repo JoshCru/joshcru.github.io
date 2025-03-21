@@ -38,7 +38,7 @@ const Home = () => {
           <p>Bachelor of Engineering (Honours) / Computer Science</p>
           <p>Majors: Mechatronic Engineering, Computer Science</p>
           <p>2021 - Present</p>
-          <p>WAM: 76.3</p>
+          <p>WAM: 76.3 (Distinction)</p>
         </div>
       </div>
       

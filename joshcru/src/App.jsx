@@ -7,7 +7,7 @@ const Home = () => {
     <div className="profile-section">
       <div className="profile-header">
         <img 
-          src="/api/placeholder/200/200" 
+          src="pfp.jpeg" 
           alt="Profile" 
           className="profile-photo" 
         />
@@ -16,7 +16,7 @@ const Home = () => {
           <h1>Joshua Cruzado</h1>
           <p className="tagline">Software Engineer | Mechatronics Engineer | AI Enthusiast</p>
           <p className="degree">Bachelor of Engineering (Honours) / Computer Science, University of New South Wales</p>
-          <a href="#" className="resume-link" target="_blank" rel="noopener noreferrer">
+          <a href="JoshuaCruzado.pdf" className="resume-link" target="_blank" rel="noopener noreferrer">
             View Resume
           </a>
         </div>
@@ -219,8 +219,8 @@ const Contact = () => (
     
     <div className="contact-info">
       <p>Email: joshua.cruzado@example.com</p>
-      <p>LinkedIn: <a href="https://linkedin.com/in/joshuacruzado" target="_blank" rel="noopener noreferrer">linkedin.com/in/joshuacruzado</a></p>
-      <p>GitHub: <a href="https://github.com/joshuacruzado" target="_blank" rel="noopener noreferrer">github.com/joshuacruzado</a></p>
+      <p>LinkedIn: <a href="https://linkedin.com/in/joshcru" target="_blank" rel="noopener noreferrer">linkedin.com/in/joshuacruzado</a></p>
+      <p>GitHub: <a href="https://github.com/joshua-cruzado" target="_blank" rel="noopener noreferrer">github.com/joshuacruzado</a></p>
     </div>
   </div>
 );

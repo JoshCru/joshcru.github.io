@@ -7,7 +7,7 @@ const Home = () => {
     <div className="profile-section">
       <div className="profile-header">
         <img 
-          src="pfp.jpeg" 
+          src="/src/pfp.jpeg" 
           alt="Profile" 
           className="profile-photo" 
         />
@@ -16,7 +16,7 @@ const Home = () => {
           <h1>Joshua Cruzado</h1>
           <p className="tagline">Software Engineer | Mechatronics Engineer | AI Enthusiast</p>
           <p className="degree">Bachelor of Engineering (Honours) / Computer Science, University of New South Wales</p>
-          <a href="JoshuaCruzado.pdf" className="resume-link" target="_blank" rel="noopener noreferrer">
+          <a href="/src/JoshuaCruzado.pdf" className="resume-link" target="_blank" rel="noopener noreferrer">
             View Resume
           </a>
         </div>

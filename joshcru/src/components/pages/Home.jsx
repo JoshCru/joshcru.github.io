@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import resumePdf from '../../JoshuaCruzado.pdf';
-import profilePic from '../../pfp.jpeg';
+import profilePic from '../../image.png';
 
 const Home = () => {
   return (

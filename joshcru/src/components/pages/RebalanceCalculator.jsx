@@ -3,8 +3,7 @@ import {
   searchASXStock, 
   getStockPrice, 
   getBatchStockPrices, 
-  calculateRebalanceActions,
-  POPULAR_ASX_STOCKS 
+  calculateRebalanceActions
 } from '../../utils/asxAPI';
 import {
   createPortfolio,
@@ -12,14 +11,12 @@ import {
   getCurrentPortfolio,
   setCurrentPortfolio,
   addHolding,
-  updateHolding,
   removeHolding,
   setTargetAllocations,
   calculatePortfolioPerformance,
   savePriceHistory,
   createDemoPortfolio,
-  getSettings,
-  saveSettings
+  getSettings
 } from '../../utils/portfolioStorage';
 
 const RebalanceCalculator = () => {
@@ -56,50 +53,6 @@ const RebalanceCalculator = () => {
     dayChange: 0,
     dayChangePercent: 0
   });
-
-  // Load portfolios on mount
-  useEffect(() => {
-    loadPortfolios();
-  }, []);
-
-  // Auto-refresh prices
-  useEffect(() => {
-    const settings = getSettings();
-    if (settings.autoRefresh && currentPortfolio) {
-      const interval = setInterval(() => {
-        refreshPrices();
-      }, settings.refreshInterval);
-      
-      return () => clearInterval(interval);
-    }
-  }, [currentPortfolio]);
-
-  const loadPortfolios = () => {
-    const portfolioList = getPortfolios();
-    setPortfolios(portfolioList);
-    
-    if (portfolioList.length === 0) {
-      setShowCreatePortfolio(true);
-    } else {
-      const current = getCurrentPortfolio();
-      if (current) {
-        loadPortfolio(current);
-      } else {
-        loadPortfolio(portfolioList[0]);
-      }
-    }
-  };
-
-  const loadPortfolio = (portfolio) => {
-    setCurrentPortfolioState(portfolio);
-    setCurrentPortfolio(portfolio.id);
-    setHoldings(portfolio.holdings || []);
-    setTargetAllocationsState(portfolio.targetAllocations || {});
-    
-    if (portfolio.holdings && portfolio.holdings.length > 0) {
-      refreshPrices(portfolio.holdings);
-    }
-  };
 
   const refreshPrices = useCallback(async (holdingsToUpdate = holdings) => {
     if (!holdingsToUpdate.length) return;
@@ -145,17 +98,60 @@ const RebalanceCalculator = () => {
     }
   }, [holdings, targetAllocations, currentPortfolio]);
 
+  const loadPortfolio = useCallback((portfolio) => {
+    setCurrentPortfolioState(portfolio);
+    setCurrentPortfolio(portfolio.id);
+    setHoldings(portfolio.holdings || []);
+    setTargetAllocationsState(portfolio.targetAllocations || {});
+    
+    if (portfolio.holdings && portfolio.holdings.length > 0) {
+      refreshPrices(portfolio.holdings);
+    }
+  }, [refreshPrices]);
+
+  const loadPortfolios = useCallback(() => {
+    const portfolioList = getPortfolios();
+    setPortfolios(portfolioList);
+    
+    if (portfolioList.length === 0) {
+      setShowCreatePortfolio(true);
+    } else {
+      const current = getCurrentPortfolio();
+      if (current) {
+        loadPortfolio(current);
+      } else {
+        loadPortfolio(portfolioList[0]);
+      }
+    }
+  }, [loadPortfolio]);
+
+  // Load portfolios on mount
+  useEffect(() => {
+    loadPortfolios();
+  }, [loadPortfolios]);
+
+  // Auto-refresh prices
+  useEffect(() => {
+    const settings = getSettings();
+    if (settings.autoRefresh && currentPortfolio) {
+      const interval = setInterval(() => {
+        refreshPrices();
+      }, settings.refreshInterval);
+      return () => clearInterval(interval);
+    }
+  }, [currentPortfolio, refreshPrices]);
+
   const handleCreatePortfolio = () => {
     if (!newPortfolioName.trim()) return;
     
-    const portfolio = createPortfolio(newPortfolioName);
+    createPortfolio(newPortfolioName);
     setNewPortfolioName('');
     setShowCreatePortfolio(false);
     loadPortfolios();
   };
 
   const handleCreateDemoPortfolio = () => {
-    const portfolio = createDemoPortfolio();
+    createDemoPortfolio();
     loadPortfolios();
     setShowCreatePortfolio(false);
   };

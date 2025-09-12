@@ -150,12 +150,12 @@ const Thesis = () => {
           <Link to="/thesis/demo" className="thesis-link-button demo-button">
             🚀 Try Live Demo
           </Link>
-          <a href="#" className="thesis-link-button">
+          <button className="thesis-link-button" disabled>
             📄 Research Paper (Coming Soon)
-          </a>
-          <a href="#" className="thesis-link-button">
+          </button>
+          <button className="thesis-link-button" disabled>
             📊 Dataset Documentation
-          </a>
+          </button>
         </div>
       </div>
 

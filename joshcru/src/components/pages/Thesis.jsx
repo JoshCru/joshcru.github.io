@@ -89,8 +89,8 @@ const Thesis = () => {
                 className="drawing-thumbnail"
                 onClick={() => setSelectedImage(drawing)}
               >
-                <img 
-                  src={`/dataset/engineering-drawings/${drawing.name}`}
+                <img
+                  src={`/dataset/dataset-2025-07-29-000639/${drawing.name}`}
                   alt={drawing.label}
                   onError={(e) => {
                     e.target.style.display = 'none';
@@ -163,8 +163,8 @@ const Thesis = () => {
         <div className="image-modal" onClick={() => setSelectedImage(null)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <span className="close-button" onClick={() => setSelectedImage(null)}>&times;</span>
-            <img 
-              src={`/dataset/engineering-drawings/${selectedImage.name}`}
+            <img
+              src={`/dataset/dataset-2025-07-29-000639/${selectedImage.name}`}
               alt={selectedImage.label}
             />
             <h3>{selectedImage.label}</h3>

@@ -37,7 +37,7 @@ const ThesisDemo = () => {
 
   const handleSampleImageSelect = (imageName, label) => {
     setUploadedImage({
-      url: `/dataset/engineering-drawings/${imageName}`,
+      url: `/dataset/dataset-2025-07-29-000639/${imageName}`,
       name: imageName,
       label: label,
       isSample: true
@@ -226,8 +226,8 @@ const ThesisDemo = () => {
                   onClick={() => handleSampleImageSelect(sample.name, sample.label)}
                 >
                   <div className="sample-image-container">
-                    <img 
-                      src={`/dataset/engineering-drawings/${sample.name}`}
+                    <img
+                      src={`/dataset/dataset-2025-07-29-000639/${sample.name}`}
                       alt={sample.label}
                       onError={(e) => {
                         e.target.style.display = 'none';

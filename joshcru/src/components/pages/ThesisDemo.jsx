@@ -1,14 +1,16 @@
 import { useState, useRef } from 'react';
 import { analyzeDrawingWithGemini, getMockAnalysis, testGeminiConnection } from '../../utils/geminiAPI';
+import { analyzeDrawingWithOpenAI, testOpenAIConnection } from '../../utils/openaiAPI';
 
 const ThesisDemo = () => {
   const [uploadedImage, setUploadedImage] = useState(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [analysisResult, setAnalysisResult] = useState(null);
   const [error, setError] = useState(null);
-  const [apiStatus, setApiStatus] = useState('unknown'); // 'gemini', 'mock', 'unknown'
+  const [apiStatus, setApiStatus] = useState('unknown'); // 'gemini', 'openai', 'mock', 'unknown'
   const [isTestingApi, setIsTestingApi] = useState(false);
   const [apiTestResult, setApiTestResult] = useState(null);
+  const [selectedModel, setSelectedModel] = useState('gemini'); // 'gemini' or 'openai'
   const fileInputRef = useRef(null);
 
   const sampleImages = [
@@ -52,8 +54,13 @@ const ThesisDemo = () => {
     setError(null);
 
     try {
-      const result = await testGeminiConnection();
-      setApiTestResult({ success: true, message: 'API connection successful!' });
+      let result;
+      if (selectedModel === 'gemini') {
+        result = await testGeminiConnection();
+      } else {
+        result = await testOpenAIConnection();
+      }
+      setApiTestResult({ success: true, message: `${selectedModel === 'gemini' ? 'Gemini' : 'OpenAI'} API connection successful!` });
       console.log('✅ API test passed:', result);
     } catch (error) {
       setApiTestResult({ success: false, message: error.message });
@@ -71,30 +78,38 @@ const ThesisDemo = () => {
 
     try {
       let result;
-      
+
       console.log('🔍 Analysis starting for:', uploadedImage);
       console.log('📊 Image details:', {
         name: uploadedImage.name,
         isSample: uploadedImage.isSample,
         hasUrl: !!uploadedImage.url,
-        urlType: uploadedImage.url ? (uploadedImage.url.startsWith('data:') ? 'data-url' : 'file-path') : 'none'
+        urlType: uploadedImage.url ? (uploadedImage.url.startsWith('data:') ? 'data-url' : 'file-path') : 'none',
+        selectedModel: selectedModel
       });
-      
-      // Force Gemini for uploaded images (data URLs), use mock for sample images (file paths)
+
+      // Use selected model for uploaded images (data URLs), use mock for sample images (file paths)
       if (uploadedImage.url && uploadedImage.url.startsWith('data:image/')) {
-        // Real uploaded image - use Gemini API
+        // Real uploaded image - use selected AI model
         try {
-          console.log('🤖 Attempting Gemini API analysis for uploaded image...');
-          result = await analyzeDrawingWithGemini(uploadedImage.url);
-          setApiStatus('gemini');
-          console.log('✅ Gemini API analysis successful!');
-        } catch (geminiError) {
-          console.log('❌ Gemini API failed, falling back to mock:', geminiError.message);
+          if (selectedModel === 'gemini') {
+            console.log('🤖 Attempting Gemini API analysis for uploaded image...');
+            result = await analyzeDrawingWithGemini(uploadedImage.url);
+            setApiStatus('gemini');
+            console.log('✅ Gemini API analysis successful!');
+          } else {
+            console.log('🤖 Attempting OpenAI fine-tuned model analysis for uploaded image...');
+            result = await analyzeDrawingWithOpenAI(uploadedImage.url);
+            setApiStatus('openai');
+            console.log('✅ OpenAI API analysis successful!');
+          }
+        } catch (apiError) {
+          console.log(`❌ ${selectedModel === 'gemini' ? 'Gemini' : 'OpenAI'} API failed, falling back to mock:`, apiError.message);
           setApiStatus('mock');
           result = getMockAnalysis(uploadedImage.name || 'uploaded-image');
           // Add source indicator for fallback
           result.source = 'mock-fallback';
-          result.fallbackReason = geminiError.message;
+          result.fallbackReason = apiError.message;
           await new Promise(resolve => setTimeout(resolve, 2000));
         }
       } else {
@@ -159,20 +174,59 @@ const ThesisDemo = () => {
       </div>
 
       <div className="demo-content">
+        {/* Model Selection Section */}
+        <div className="model-selection-section">
+          <h2>Select AI Model</h2>
+          <p>Choose which AI model to use for analysing your engineering drawings:</p>
+
+          <div className="model-options">
+            <div
+              className={`model-card ${selectedModel === 'gemini' ? 'selected' : ''}`}
+              onClick={() => setSelectedModel('gemini')}
+            >
+              <div className="model-header">
+                <div className={`model-radio ${selectedModel === 'gemini' ? 'selected' : ''}`}>
+                  {selectedModel === 'gemini' && <div className="radio-dot"></div>}
+                </div>
+                <h3>Gemini 2.0 Flash</h3>
+              </div>
+              <p className="model-description">
+                Google's latest multimodal AI model with fast processing and excellent vision capabilities for general engineering drawing analysis.
+              </p>
+            </div>
+
+            <div
+              className={`model-card ${selectedModel === 'openai' ? 'selected' : ''}`}
+              onClick={() => setSelectedModel('openai')}
+            >
+              <div className="model-header">
+                <div className={`model-radio ${selectedModel === 'openai' ? 'selected' : ''}`}>
+                  {selectedModel === 'openai' && <div className="radio-dot"></div>}
+                </div>
+                <h3>Fine-tuned GPT-4o</h3>
+              </div>
+              <p className="model-description">
+                Custom fine-tuned OpenAI model specifically trained for AS1100 title block analysis and engineering drawing compliance.
+              </p>
+              <span className="model-badge">Specialized for AS1100</span>
+            </div>
+          </div>
+        </div>
+
         {/* API Test Section */}
         <div className="api-test-section">
           <h2>System Status</h2>
           <p>Verify AI analysis connectivity before uploading your drawings:</p>
-          
+
           <div className="api-test-controls">
-            <button 
+            <button
               className="test-api-button"
               onClick={testApiConnection}
               disabled={isTestingApi}
             >
-              {isTestingApi ? 'Testing Connection...' : 'Test AI Connection'}
+              {isTestingApi ? 'Testing Connection...' : `Test ${selectedModel === 'gemini' ? 'Gemini' : 'OpenAI'} Connection`}
             </button>
-            
+
             {apiTestResult && (
               <div className={`api-test-result ${apiTestResult.success ? 'success' : 'error'}`}>
                 <div className="result-indicator">
@@ -316,7 +370,8 @@ const ThesisDemo = () => {
                 <div className={`api-status ${apiStatus}`}>
                   <div className={`status-indicator ${apiStatus}`}></div>
                   <span>
-                    {apiStatus === 'gemini' ? 'Gemini AI Analysis' : 
+                    {apiStatus === 'gemini' ? 'Gemini AI Analysis' :
+                     apiStatus === 'openai' ? 'Fine-tuned GPT-4o Analysis' :
                      apiStatus === 'mock' ? 'Demo Mode' : 'Unknown Source'}
                   </span>
                 </div>

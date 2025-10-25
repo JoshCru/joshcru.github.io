@@ -9,37 +9,92 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    
+
     steps:
     - name: Checkout
       uses: actions/checkout@v4
-    
+      with:
+        fetch-depth: 2
+
+    - name: Check if only dataset images changed
+      id: check_changes
+      run: |
+        # Get list of changed files
+        if [ "${{ github.event_name }}" == "pull_request" ]; then
+          CHANGED_FILES=$(git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.sha }})
+        else
+          CHANGED_FILES=$(git diff --name-only HEAD^ HEAD)
+        fi
+
+        echo "Changed files:"
+        echo "$CHANGED_FILES"
+
+        # Check if all changes are only in dataset directories
+        ONLY_DATASET=true
+        while IFS= read -r file; do
+          if [[ ! "$file" =~ ^joshcru/public/dataset/ ]]; then
+            ONLY_DATASET=false
+            break
+          fi
+        done <<< "$CHANGED_FILES"
+
+        echo "only_dataset=$ONLY_DATASET" >> $GITHUB_OUTPUT
+        echo "Only dataset images changed: $ONLY_DATASET"
+
     - name: Setup Node.js
+      if: steps.check_changes.outputs.only_dataset != 'true'
       uses: actions/setup-node@v4
       with:
         node-version: '18'
         cache: 'npm'
         cache-dependency-path: joshcru/package-lock.json
-    
+
     - name: Install dependencies
+      if: steps.check_changes.outputs.only_dataset != 'true'
       run: |
         cd joshcru
         npm ci
-    
+
     - name: Create .env file
+      if: steps.check_changes.outputs.only_dataset != 'true'
       run: |
         cd joshcru
         echo "REACT_APP_GEMINI_API_KEY=${{ secrets.REACT_APP_GEMINI_API_KEY }}" >> .env
         echo "REACT_APP_ALPHA_VANTAGE_API_KEY=${{ secrets.REACT_APP_ALPHA_VANTAGE_API_KEY }}" >> .env
-    
+
     - name: Build
+      if: steps.check_changes.outputs.only_dataset != 'true'
       run: |
         cd joshcru
         npm run build
-    
+
+    - name: Quick deploy dataset images only
+      if: steps.check_changes.outputs.only_dataset == 'true' && github.ref == 'refs/heads/main'
+      run: |
+        echo "Only dataset images changed - skipping full build"
+        # Checkout gh-pages branch
+        git fetch origin gh-pages:gh-pages
+        git checkout gh-pages
+
+        # Copy new dataset images from main branch
+        git checkout main -- joshcru/public/dataset/
+
+        # Move images to the correct location in gh-pages
+        mkdir -p dataset
+        cp -r joshcru/public/dataset/* dataset/
+
+        # Configure git
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+
+        # Commit and push
+        git add dataset/
+        git commit -m "Update dataset images (fast-path deployment)"
+        git push origin gh-pages
+
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
-      if: github.ref == 'refs/heads/main'
+      if: steps.check_changes.outputs.only_dataset != 'true' && github.ref == 'refs/heads/main'
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./joshcru/build

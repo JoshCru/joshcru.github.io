@@ -2,7 +2,7 @@
 
 const OPENAI_API_KEY = process.env.REACT_APP_OPENAI_API_KEY;
 const OPENAI_API_URL = 'https://api.openai.com/v1/chat/completions';
-const FINETUNED_MODEL = process.env.REACT_APP_OPENAI_MODEL || 'ft:gpt-4o-2024-08-06:thesis-z5367218:title-block-feedback:ByJaa7IN';
+const FINETUNED_MODEL = process.env.REACT_APP_OPENAI_MODEL;
 
 // Test function to check API connectivity
 export const testOpenAIConnection = async () => {

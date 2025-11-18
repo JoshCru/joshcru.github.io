@@ -68,13 +68,13 @@ export const analyzeDrawingWithOpenAI = async (imageData) => {
 
     // Ensure it's in data URL format
     if (!imageData.startsWith('data:image/')) {
-      console.log('⚠️ Image data not in data URL format, converting...');
+      console.log('Image data not in data URL format, converting...');
       imageUrl = `data:image/jpeg;base64,${imageData}`;
     }
 
-    const systemMessage = `You are an expert engineering drawing analyst specialising in AS1100 Australian standard compliance. Focus specifically on analysing the title block elements and identify any missing or non-compliant information.`;
+    const systemMessage = `You are an expert engineering drawing analyst specialising in AS1100 Australian standard compliance and UNSW MMAN1130 (Design and Manufacturing) course requirements. Focus specifically on the title block elements and identify any missing or non-compliant information. Note that MMAN1130 title blocks follow AS1100 standards but may not include all fields found in professional drawings, as the course template simplifies certain elements.`;
 
-    const userMessage = `Please analyse this engineering drawing's title block for AS1100 compliance. Identify any missing elements such as title, material, scale, tolerance, surface finish, drawn by field, or date. Focus only on the title block area.
+    const userMessage = `Please analyse this engineering drawing's title block for compliance with AS1100 standards and UNSW MMAN1130 course requirements. Identify any missing or non-compliant elements such as title, material, scale, tolerance, surface finish, drawn by field, or date. Focus only on the title block area, and provide clear, actionable feedback on what needs to be corrected or improved. Remember that this is a MMAN1130 course template, which follows AS1100 conventions but omits some professional documentation fields such as revision history, approval signatures, or full drawing numbering systems used in industry.
 
 Provide your analysis in this exact JSON format with separate categories for each title block element:
 

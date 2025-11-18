@@ -152,26 +152,38 @@ const ThesisDemo = () => {
 
   return (
     <div className="demo-container thesis-page">
-      <div className="demo-header">
-        <h1>Engineering Drawing Analysis</h1>
-        <p className="demo-subtitle">
+      <header style={{
+        background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%)',
+        padding: '80px 40px',
+        borderRadius: '0 0 24px 24px',
+        marginBottom: '60px',
+        textAlign: 'center',
+        color: 'white',
+        marginLeft: '-20px',
+        marginRight: '-20px',
+        boxShadow: '0 20px 60px rgba(15, 23, 42, 0.4)'
+      }}>
+        <h1 style={{ fontSize: '48px', fontWeight: '800', marginBottom: '24px', color: '#ffffff' }}>
+          Engineering Drawing Analysis
+        </h1>
+        <p style={{ fontSize: '22px', opacity: '0.85', maxWidth: '600px', margin: '0 auto 40px', lineHeight: '1.5' }}>
           Get instant, detailed feedback on your technical drawings using AI powered by AS1100 standards
         </p>
-        <div className="demo-stats">
-          <div className="stat-item">
-            <span className="stat-number">7</span>
-            <span className="stat-label">Title Block Elements Checked</span>
+        <div style={{ display: 'flex', justifyContent: 'center', gap: '60px' }}>
+          <div style={{ textAlign: 'center' }}>
+            <div style={{ fontSize: '32px', fontWeight: '900', color: '#60a5fa' }}>7</div>
+            <div style={{ fontSize: '14px', opacity: '0.8', maxWidth: '120px' }}>Title Block Elements Checked</div>
           </div>
-          <div className="stat-item">
-            <span className="stat-number">AS1100</span>
-            <span className="stat-label">Australian Standard Compliance</span>
+          <div style={{ textAlign: 'center' }}>
+            <div style={{ fontSize: '32px', fontWeight: '900', color: '#60a5fa' }}>AS1100</div>
+            <div style={{ fontSize: '14px', opacity: '0.8', maxWidth: '120px' }}>Australian Standard Compliance</div>
           </div>
-          <div className="stat-item">
-            <span className="stat-number">Instant</span>
-            <span className="stat-label">Feedback Delivery</span>
+          <div style={{ textAlign: 'center' }}>
+            <div style={{ fontSize: '32px', fontWeight: '900', color: '#60a5fa' }}>Instant</div>
+            <div style={{ fontSize: '14px', opacity: '0.8', maxWidth: '120px' }}>Feedback Delivery</div>
           </div>
         </div>
-      </div>
+      </header>
 
       <div className="demo-content">
         {/* Model Selection Section */}

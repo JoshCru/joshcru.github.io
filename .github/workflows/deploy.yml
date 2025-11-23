@@ -61,6 +61,7 @@ jobs:
         cd joshcru
         echo "REACT_APP_GEMINI_API_KEY=${{ secrets.REACT_APP_GEMINI_API_KEY }}" >> .env
         echo "REACT_APP_ALPHA_VANTAGE_API_KEY=${{ secrets.REACT_APP_ALPHA_VANTAGE_API_KEY }}" >> .env
+        echo "REACT_APP_OPENAI_API_KEY=${{ secrets.REACT_APP_OPENAI_API_KEY }}" >> .env
 
     - name: Build
       if: steps.check_changes.outputs.only_dataset != 'true'

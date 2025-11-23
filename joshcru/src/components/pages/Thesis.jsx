@@ -5,10 +5,10 @@ const Thesis = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   
   const sampleDrawings = [
-    { name: 'PART01_PERFECT.jpeg', label: 'Perfect Drawing Example' },
-    { name: 'PART01_D01.jpeg', label: 'Dimensioning Error' },
-    { name: 'PART01_M01.jpeg', label: 'Missing Feature' },
-    { name: 'PART01_TB01.jpeg', label: 'Title Block Issue' }
+    { name: 'Part1_P_3.jpg', label: 'Perfect Drawing Example' },
+    { name: 'Part1_D01_3.jpg', label: 'Date Error' },
+    { name: 'Part1_M01_3.jpg', label: 'Material Error' },
+    { name: 'Part1_TL01_3.jpg', label: 'Title Error' }
   ];
 
   return (
@@ -90,7 +90,7 @@ const Thesis = () => {
                 onClick={() => setSelectedImage(drawing)}
               >
                 <img
-                  src={`/dataset/dataset-2025-07-29-000639/${drawing.name}`}
+                  src={`/dataset/iteration-2-dataset/${drawing.name}`}
                   alt={drawing.label}
                   onError={(e) => {
                     e.target.style.display = 'none';
@@ -164,7 +164,7 @@ const Thesis = () => {
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <span className="close-button" onClick={() => setSelectedImage(null)}>&times;</span>
             <img
-              src={`/dataset/dataset-2025-07-29-000639/${selectedImage.name}`}
+              src={`/dataset/iteration-2-dataset/${selectedImage.name}`}
               alt={selectedImage.label}
             />
             <h3>{selectedImage.label}</h3>

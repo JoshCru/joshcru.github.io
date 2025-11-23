@@ -14,10 +14,10 @@ const ThesisDemo = () => {
   const fileInputRef = useRef(null);
 
   const sampleImages = [
-    { name: 'PART01_PERFECT.jpeg', label: 'Perfect Drawing', category: 'Reference' },
-    { name: 'PART01_D01.jpeg', label: 'Dimensioning Error', category: 'Error' },
-    { name: 'PART01_M01.jpeg', label: 'Missing Feature', category: 'Error' },
-    { name: 'PART01_TB01.jpeg', label: 'Title Block Issue', category: 'Error' }
+    { name: 'Part1_P_3.jpg', label: 'Perfect Drawing', category: 'Reference' },
+    { name: 'Part1_D01_3.jpg', label: 'Date Error', category: 'Error' },
+    { name: 'Part1_M01_3.jpg', label: 'Material Error', category: 'Error' },
+    { name: 'Part1_TL01_3.jpg', label: 'Title Error', category: 'Error' }
   ];
 
   const handleImageUpload = (event) => {
@@ -39,7 +39,7 @@ const ThesisDemo = () => {
 
   const handleSampleImageSelect = (imageName, label) => {
     setUploadedImage({
-      url: `/dataset/dataset-2025-07-29-000639/${imageName}`,
+      url: `/dataset/iteration-2-dataset/${imageName}`,
       name: imageName,
       label: label,
       isSample: true
@@ -293,7 +293,7 @@ const ThesisDemo = () => {
                 >
                   <div className="sample-image-container">
                     <img
-                      src={`/dataset/dataset-2025-07-29-000639/${sample.name}`}
+                      src={`/dataset/iteration-2-dataset/${sample.name}`}
                       alt={sample.label}
                       onError={(e) => {
                         e.target.style.display = 'none';
